@@ -1,43 +1,48 @@
 import gooeypie as gp
 
-def say_hello(event): # triggers an event
-    #startup_lbl.text = ''
-    # app.add(name_lbl, 11, 5, align='center')
-    # app.add(name_inp, 12, 5)
-    # app.add(hello_btn, 13, 5, align='center')
-    # app.add(hello_lbl, 14, 5, align='center')
-
-
-
-def password_input(event):
-    print("eh")
+def password_check(event):
+    
+    if len(checker_inp.text) == 5:
+        verify_lbl.text = 'GREAT!' 
+    else:
+        verify_lbl.text = 'Could be better...'
+    
+    checker_inp.update()
 
 app = gp.GooeyPieApp('Locksmith')
+# tabs_cont = gp.TabContainer(app)
 
-app.width = 250
+# intro = gp.Tab(tabs_cont, 'Tab 1')
+# checker = gp.Tab(tabs_cont, 'Tab 2')
 
-hello_lbl = gp.Label(app, 'Hello! Welcome to Locksmith!')
-start_lbl = gp.Label(app, 'Please press the button to begin')
-startup_btn = gp.Button(app, 'Begin', say_hello)
-startup_lbl = gp.Label(app, '')
+app.set_size(250, 250) 
 
-name_lbl = gp.Label(app, 'What is the password?')
-name_inp = gp.Input(app)
-name_inp.justify = 'center'
-name_inp.width = 30
-hello_btn = gp.Button(app, 'Begin', password_input)
-hello_lbl = gp.Label(app, '')
+intro_lbl = gp.Label(app, 'Hello! Welcome to Locksmith!') # location, text
+ask_lbl = gp.Label(app, 'Enter your password...')
+verify_lbl = gp.Label(app, 'NAN')
+checker_inp = gp.Input(app)
+checker_inp.justify = 'center'
+checker_inp.width = 30
+checker_btn = gp.Button(app, 'Check', password_check) # location, text, function
 
-app.set_grid(30, 30) # Size of Tab
-app.add(hello_lbl, 5, 5, align='center') # Text - Location: y, x (make sure it's within size of the Tab) - alignment
-app.add(start_lbl, 7, 5, align='center')
-app.add(startup_btn, 9, 5, align='center')
-app.add(startup_lbl, 10, 5, align='left')
+# intro_tab.set_grid(1, 1)
+# checker_tab.add(some_lbl, 1, 1, align='center', valign='middle')
 
-app.add(name_lbl, 11, 5, align='center')
-app.add(name_inp, 12, 5)
-app.add(hello_btn, 13, 5, align='center')
-app.add(hello_lbl, 14, 5, align='center')
+app.set_grid(50, 50) # Size of Tab
+# intro.set_grid(50, 50)
+
+app.add(intro_lbl, 5, 25, align='center') # Text - Location: y, x (make sure it's within size of the Tab) - alignment
+
+app.set_grid(50, 50)
+app.add(ask_lbl, 7, 25, align='center')
+app.add(checker_inp, 10, 25)
+app.add(verify_lbl, 12, 25, align='center')
+app.add(checker_btn, 17, 25, align='center')
+
+# tabs_cont.add(intro)
+# tabs_cont.add(checker)
+
+# app.add(tabs_cont, 1, 1, fill=True, stretch=True)
 
 
 app.run()
