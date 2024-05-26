@@ -1,34 +1,54 @@
 import gooeypie as gp
+import re
+
+def has_special_characters(input_string): # NOTE Use of ChatGPT
+    pattern = re.compile(r'[!@#$%^&*(),.?":{}|<>]') # Define the regex pattern for special characters
+    return bool(pattern.search(input_string)) # Search for the pattern in the input string
+
+def password_check(event):
+    with open("100000-most-common-passwords.txt", "r") as file: # opens .txt file as a python list
+        password_list = file.read().splitlines()
+    
+    password = checker_inp.text
+
+    if len(password) <= 0: # password length
+        verify_lbl.text = 'Please enter a password'
+    elif len(password) >= 0 and len(password) <= 4:
+        verify_lbl.text = 'Please make the password at least 5 characters long'
+    elif password.isdigit() == True: # just digits
+        verify_lbl.text = 'Try having more letters'
+    elif password.isalpha() == True: # just letters
+        verify_lbl.text = 'Try having more numbers'
+    elif not has_special_characters(password): # no special characters
+        verify_lbl.text = 'Try including a special character'
+    
+    target_word = password
+
+    if target_word in password_list:
+        verify_lbl.text = 'This password has a high risk of being breached'
+    else:
+        verify_lbl.text = 'PERFECT'
+
+    verify_lbl.update()
+
 
 def toggle_mask(event):
     checker_inp.toggle()
-
-def password_check(event):
-    
-    if len(checker_inp.text) == 0:
-        verify_lbl.text = 'Please enter your password!' 
-    elif len(checker_inp.text) >= 5:
-        verify_lbl.text = 'GREAT!' 
-    elif len(checker_inp.text) <= 5:
-        verify_lbl.text = 'Your password should be 5 characters long atleast' 
-    
-    checker_inp.update()
-
 
 
 app = gp.GooeyPieApp('Locksmith')
 
 app.set_size(250, 250) 
 
-check = gp.Checkbox(app, 'Show secret')
-check.add_event_listener('change', toggle_mask)
 
-intro_lbl = gp.Label(app, 'Hello! Welcome to Locksmith!') # location, text
+intro_lbl = gp.Label (app, 'Hello! Welcome to Locksmith!') # location, text
 ask_lbl = gp.Label(app, 'Enter your password...')
 verify_lbl = gp.Label(app, '')
 checker_inp = gp.Secret(app)
 checker_inp.justify = 'left'
 checker_inp.width = 45
+check = gp.Checkbox(app, 'Show Password')
+check.add_event_listener('change', toggle_mask)
 checker_btn = gp.Button(app, 'Check', password_check) # location, text, function
 
 
