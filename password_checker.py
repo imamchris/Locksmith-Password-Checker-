@@ -1,6 +1,10 @@
 import gooeypie as gp
+from random import choice
 import re
 
+# colours = ['',]
+# fonts = ['',]
+# styles = ['',]
    
 
 def open_function(event): 
@@ -14,6 +18,13 @@ def open_function(event):
     app.add(check, 11, 25, allign ='left') 
     app.add(verify_lbl, 12, 25, align='left')
     app.add(checker_btn, 13, 25, align='left')
+    app.add(assist_btn, 1, 1)
+
+def open_on_top_window(event):
+    help_window.show_on_top()
+
+def close_on_top_window(event):
+    help_window.hide()
 
 def has_special_characters(input_string): # NOTE Use of ChatGPT
     pattern = re.compile(r'[!@#$%^&*(),.?":{}|<>]') # Define the regex pattern for special characters
@@ -65,9 +76,22 @@ checker_inp.width = 45
 check = gp.Checkbox(app, 'Show Password')
 check.add_event_listener('change', toggle_mask)
 checker_btn = gp.Button(app, 'Check', password_check) # location, text, function
+app = gp.GooeyPieApp('Other windows')
+assist_btn = gp.Button(app, '?', open_on_top_window)
+
+
+# Create other windows
+help_window = gp.Window(app, 'On top window')
+help_window.width = 300
+help_txt = gp.Label(help_window, 'This is what you do...')
+help_btn = gp.Button(help_window, 'Ok!', close_on_top_window)
+help_window.set_grid(5, 5)
+help_window.add(help_txt, 1, 1)
+help_window.add(help_btn, 3, 1)
+
+# Startup screen
 
 start_btn = gp.Button(app, 'Ok!', open_function)
-
 
 app.set_grid(50, 200) # Size of Tab
 
