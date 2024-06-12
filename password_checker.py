@@ -1,24 +1,15 @@
 import gooeypie as gp
-from random import choice
 import re
 
 def open_function(event):
-    start_btn.destroy()
-    
-    app.set_grid(50, 50)  # Fix: Set grid before adding widgets
-    app.add(intro_lbl, 5, 25, align='left')
-    app.add(ask_lbl, 7, 25, align='left')
-    app.add(checker_inp, 10, 25)
-    app.add(check, 11, 25, align='left')  # Typo fixed: allign -> align
-    app.add(verify_lbl, 12, 25, align='left')
-    app.add(checker_btn, 13, 25, align='left')
-    app.add(assist_btn, 13, 26)
+    startup_window.show_on_top()
 
 def open_on_top_window(event):
     help_window.show_on_top()
 
 def close_on_top_window(event):
     help_window.hide()
+
 
 def has_special_characters(input_string):
     pattern = re.compile(r'[!@#$%^&*(),.?":{}|<>]')
@@ -52,10 +43,13 @@ def password_check(event):
 def toggle_mask(event):
     checker_inp.toggle()
 
+
+
 # Main app window
 app = gp.GooeyPieApp('Locksmith')
-app.set_size(250, 250)
-app.set_grid(25, 25)  # Fix: Set grid before adding widgets
+# app.set_size(250, 250)
+app.set_grid(50, 50)  # Sets the grid
+
 
 # Main Tab
 intro_lbl = gp.Label(app, 'Hello! Welcome to Locksmith!')
@@ -69,18 +63,36 @@ check.add_event_listener('change', toggle_mask)
 checker_btn = gp.Button(app, 'Check', password_check)
 assist_btn = gp.Button(app, '?', open_on_top_window)
 
-# Create other windows
+app.add(intro_lbl, 5, 25, align='left')
+app.add(ask_lbl, 7, 25, align='left')
+app.add(checker_inp, 10, 25)
+app.add(check, 11, 25, align='left')  # Typo fixed: allign -> align
+app.add(verify_lbl, 12, 25, align='left')
+app.add(checker_btn, 13, 25, align='left')
+app.add(assist_btn, 13, 26)
+
+# Help Tab
 help_window = gp.Window(app, 'On top window')
-help_window.width = 300
-help_window.set_grid(5, 5)
+help_window.set_grid(50, 50)  # Sets the grid
+
 help_txt = gp.Label(help_window, 'This is what you do...')
 help_btn = gp.Button(help_window, 'Ok!', close_on_top_window)
+
 help_window.add(help_txt, 1, 1)
 help_window.add(help_btn, 3, 1)
 
-# Startup screen
-start_btn = gp.Button(app, 'Ok!', open_function)
-app.add(start_btn, 5, 1, align='left')
+
+# Startup Tab
+
+startup_window = gp.Window(app, 'On  window')
+startup_window.set_grid(50, 50)  # Sets the grid
+
+startup_txt = gp.Label(startup_window, 'This is what you do...')
+startup_btn = gp.Button(startup_window, 'Ok!', None)
+
+startup_window.add(startup_txt, 1, 1)
+startup_window.add(startup_btn, 3, 1)
+
+open_function()
 
 app.run()
-
