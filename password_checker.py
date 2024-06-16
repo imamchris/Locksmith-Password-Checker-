@@ -11,7 +11,7 @@ def open_function(event): # destroys the startup page and adds the password chec
     app.add(ask_lbl, 7, 25, align='left')
     app.add(checker_inp, 10, 25)
     app.add(check, 11, 25, align='left')  # Typo fixed: allign -> align
-    app.add(verify_lbl, 12, 25, align='left')
+    app.add(rating_lbl, 12, 25, align='left')
     app.add(checker_btn, 13, 25, align='left')
     app.add(assist_btn, 13, 26)
 
@@ -22,34 +22,88 @@ def close_on_top_window(event): # closes the help window
     help_window.hide()
 
 
-def has_special_characters(input_string): 
-    pattern = re.compile(r'[!@#$%^&*(),.?":{}|<>]')
-    return bool(pattern.search(input_string))
+def get_letters(password): # checks for letters in the password
+    letters = []
+
+    for i in password:
+        if i.isalpha():
+            letters.append(i) 
+    return len(letters)
+
+def get_lower(password):
+    lowers = []
+
+    for i in password:
+        if i.islower():
+            lowers.append(i) 
+    return len(lowers)
+
+def get_upper(password):
+    uppers = []
+
+    for i in password:
+        if i.isupper():
+            uppers.append(i) 
+    return len(uppers)
+
+
+def get_digits(password): # checks for numbers in the password
+    digits = []
+
+    for i in password:
+        if i.isdigit():
+            digits.append(i) 
+    return len(digits)
+
+
+def get_special_char(password): # checks for any special characters
+    types_str = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+    types = list(types_str) # NOTE: Use of ChatGPT 
+
+    specials = []
+
+    for i in password:
+        if i in types:
+            specials.append(i) 
+    return len(specials)
+
 
 def password_check(event):
     with open("100000-most-common-passwords.txt", "r") as file: # Opens the .txt file and puts it into a list
         password_list = file.read().splitlines()
     
-    verify_lbl.text = '' # Text for password feedback
+    rating_lbl.text = '' # Text for password feedback
     password = checker_inp.text
+    password_rating = len(password)
+
+    print(password_rating)
 
     if password in password_list: # checks to see if the password is common
-        verify_lbl.text = 'This password has a high risk of being breached'
-    else:
-        if len(password) <= 0: # checks if there's nothing in the input
-            verify_lbl.text = 'Please enter a password'
-        elif len(password) >= 0 and len(password) <= 4: # checks if the password is too short
-            verify_lbl.text = 'Please make the password at least 5 characters long'
-        elif password.isdigit(): # checks for digits
-            verify_lbl.text = 'Try having more letters'
-        elif password.isalpha(): # checks for letter
-            verify_lbl.text = 'Try having more numbers'
-        elif not has_special_characters(password): # checks for special characters
-            verify_lbl.text = 'Try including a special character'
-        else:
-            verify_lbl.text = 'PERFECT'
+        password_rating = 'This password has a high risk of being breached'
     
-    verify_lbl.update()
+    else:
+        
+        if len(password) <= 0: # checks if there's nothing in the input
+            password_rating = 'Please enter a password'
+            print(password_rating)      
+        
+        else:
+            if get_letters(password) > 3:
+                password_rating += 1
+                if get_upper(password) > 2:
+                    password_rating += 2
+                elif get_lower(password) > 2:
+                    password_rating += 2
+
+            if get_digits(password) > 3:
+                password_rating += 3 
+
+            if get_special_char(password) > 3:
+                password_rating += 2
+
+            rating_lbl.text = (f"Password security is: {password_rating / (len(password) + 6) * 100}%") # Calculates how secure the password is base on the rating 
+    
+    rating_lbl.update()
 
 def toggle_mask(event): # hides and shows the password
     checker_inp.toggle()
@@ -58,14 +112,13 @@ def toggle_mask(event): # hides and shows the password
 
 # Main app window
 app = gp.GooeyPieApp('Locksmith')
-# app.set_size(250, 250)
 app.set_grid(100, 100)  # Sets the grid
 
 
 # Main Tab
 intro_lbl = gp.Label(app, 'Hello! Welcome to Locksmith!')
 ask_lbl = gp.Label(app, 'Enter your password...')
-verify_lbl = gp.Label(app, '')
+rating_lbl = gp.Label(app, '')
 checker_inp = gp.Secret(app)
 checker_inp.justify = 'left'
 checker_inp.width = 45
