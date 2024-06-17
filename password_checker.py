@@ -1,19 +1,23 @@
 import gooeypie as gp
 import re
 
+
 def open_function(event): # destroys the startup page and adds the password checker
     startup_txt.destroy()
     startup_btn.destroy()
     
     app.height = 250
 
-    app.add(intro_lbl, 5, 25, align='left')
-    app.add(ask_lbl, 7, 25, align='left')
-    app.add(checker_inp, 10, 25)
-    app.add(check, 11, 25, align='left')  # Typo fixed: allign -> align
-    app.add(rating_lbl, 12, 25, align='left')
-    app.add(checker_btn, 13, 25, align='left')
-    app.add(assist_btn, 13, 26)
+    app.add(intro_lbl, 5, 1)
+    app.add(ask_lbl, 6, 1)
+    app.add(checker_inp, 8, 1)
+    app.add(checker_btn, 8, 2)
+    app.add(check, 9, 1)
+    app.add(rating_lbl, 10, 1)
+    app.add(status_lbl, 11, 1)
+    app.add(assist_btn, 12, 2)
+    app.add(copy_btn, 13, 1)
+
 
 def open_on_top_window(event): # opens the hekp window
     help_window.show_on_top()
@@ -21,6 +25,8 @@ def open_on_top_window(event): # opens the hekp window
 def close_on_top_window(event): # closes the help window
     help_window.hide()
 
+
+# Password Checking Functions
 
 def get_letters(password): # checks for letters in the password
     letters = []
@@ -68,57 +74,83 @@ def get_special_char(password): # checks for any special characters
     return len(specials)
 
 
+
 def password_check(event):
     with open("100000-most-common-passwords.txt", "r") as file: # Opens the .txt file and puts it into a list
         password_list = file.read().splitlines()
     
-    rating_lbl.text = '' # Text for password feedback
+    rating_lbl.text = '' # Text for password rating
+    feedback = [] # Password feedback
     password = checker_inp.text
     password_rating = len(password)
 
-    print(password_rating)
 
     if password in password_list: # checks to see if the password is common
-        password_rating = 'This password has a high risk of being breached'
-    
+        rating_lbl.text = '0'
+        feedback.append('This password has a high risk of being breached please change your password!')
     else:
         
         if len(password) <= 0: # checks if there's nothing in the input
-            password_rating = 'Please enter a password'
-            print(password_rating)      
+            feedback.append("Please enter a password")    
         
         else:
             if get_letters(password) > 3:
                 password_rating += 1
+
                 if get_upper(password) > 2:
                     password_rating += 2
-                elif get_lower(password) > 2:
+                else:
+                    feedback.append("Try to include more captial letters")
+
+                if get_lower(password) > 2:
                     password_rating += 2
+                else:
+                    feedback.append("Try to include more lowercase letters ")
+            
+            else:
+                feedback.append("Try having more letters")
 
             if get_digits(password) > 3:
-                password_rating += 3 
+                password_rating += 3
+            else:
+                feedback.append("Try to include numbers ") 
 
             if get_special_char(password) > 3:
                 password_rating += 2
+            else:
+                feedback.append("Try having more special characters ")
 
-            rating_lbl.text = (f"Password security is: {password_rating / (len(password) + 6) * 100}%") # Calculates how secure the password is base on the rating 
-    
+    if rating_lbl.text == '0':
+        rating_lbl.text = ("Password security is: 0%")
+    else:    
+        rating_lbl.text = (f"Password security is: {password_rating / (len(password) + 6) * 100}%") # Calculates how secure the password is base on the rating 
+
+    status_lbl.text = feedback
+
     rating_lbl.update()
+
+
 
 def toggle_mask(event): # hides and shows the password
     checker_inp.toggle()
 
 
 
+def copy_password(event):
+    print("COPIED!!!")
+    app.copy_to_clipboard(checker_inp.text)
+    
+
 # Main app window
 app = gp.GooeyPieApp('Locksmith')
-app.set_grid(100, 100)  # Sets the grid
+app.set_grid(50, 50)  # Sets the grid
 
 
 # Main Tab
 intro_lbl = gp.Label(app, 'Hello! Welcome to Locksmith!')
 ask_lbl = gp.Label(app, 'Enter your password...')
 rating_lbl = gp.Label(app, '')
+status_lbl = gp.Label(app, '')
 checker_inp = gp.Secret(app)
 checker_inp.justify = 'left'
 checker_inp.width = 45
@@ -126,6 +158,7 @@ check = gp.Checkbox(app, 'Show Password')
 check.add_event_listener('change', toggle_mask)
 checker_btn = gp.Button(app, 'Check', password_check)
 assist_btn = gp.Button(app, '?', open_on_top_window)
+copy_btn = gp.Button(app, 'Copy', copy_password )
 
 # Help Tab
 help_window = gp.Window(app, 'On top window')

@@ -43,16 +43,17 @@ import gooeypie as gp
 # print(get_alpha(""))
 
 
-def get_special_characters(password):    
-    types_str = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
-    types = list(types_str)
+# def get_special_characters(password):    
+#     types_str = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+#     types = list(types_str)
 
-    specials = []
+#     specials = []
 
-    for i in password:
-        if i in types:
-            specials.append(i) 
-    return len(specials)
+#     for i in password:
+#         if i in types:
+#             specials.append(i) 
+#     return len(specials)
 
 
-print(get_special_characters(""))
+# print(get_special_characters(""))
+
