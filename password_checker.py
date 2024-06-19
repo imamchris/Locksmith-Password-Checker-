@@ -3,8 +3,11 @@ import re
 
 
 def open_function(event): # destroys the startup page and adds the password checker
-    startup_txt.destroy()
+    startup1_txt.destroy()
+    startup2_txt.destroy()
+    startup3_txt.destroy()
     startup_btn.destroy()
+    # lock_img.destroy()
     
     app.height = 400
 
@@ -150,10 +153,17 @@ app.set_grid(50, 50)  # Sets the grid
 
 
 # Main Tab
-intro_lbl = gp.Label(app, 'Locksmith!')
-ask_lbl = gp.Label(app, 'Enter your password...')
-rating_lbl = gp.Label(app, '')
-status_lbl = gp.Label(app, '')
+intro_lbl = gp.StyleLabel(app, 'Locksmith!') # Eras Demi ITC
+intro_lbl.font_name = 'Eras Demi ITC'
+
+ask_lbl = gp.StyleLabel(app, 'Enter your password...')
+ask_lbl.font_name = 'Eras Demi ITC'
+
+rating_lbl = gp.StyleLabel(app, '')
+rating_lbl.font_name = 'Eras Demi ITC'
+
+status_lbl = gp.StyleLabel(app, '')
+status_lbl.font_name = 'Eras Demi ITC'
 
 checker_inp = gp.Secret(app)
 checker_inp.justify = 'left'
@@ -176,7 +186,9 @@ copy_btn.width = 5
 help_window = gp.Window(app, 'On top window')
 help_window.set_grid(50, 50)  # Sets the grid
 
-help_txt = gp.Label(help_window, 'This is what you do...')
+help_txt = gp.StyleLabel(help_window, 'This is what you do...')
+help_txt.font_name = 'Eras Demi ITC'
+
 help_btn = gp.Button(help_window, 'Ok!', close_on_top_window)
 
 help_window.add(help_txt, 1, 1)
@@ -184,11 +196,23 @@ help_window.add(help_btn, 3, 1)
 
 
 # Startup Tab
-startup_txt = gp.Label(app, 'Hello, Welcome to Locksmith... \nWe are here to help you create the most secure password as possible\nPlease Press Start to begin.')
-startup_btn = gp.Button(app, 'Start', open_function)
+startup1_txt = gp.StyleLabel(app, 'Hello, \nWelcome to Locksmith!')
+startup1_txt.font_name = 'Eras Demi ITC'
 
-app.add(startup_txt, 1, 1)
-app.add(startup_btn, 3, 1)
+startup2_txt = gp.StyleLabel(app, 'We are here to help you create the most secure password as possible\nPlease Press Start to begin.')
+startup2_txt.font_name = 'Eras Demi ITC'
+
+startup3_txt = gp.StyleLabel(app, 'Please Press Start to begin...')
+startup3_txt.font_name = 'Eras Demi ITC'
+
+startup_btn = gp.Button(app, 'Start', open_function)
+lock_img = gp.Image(app, 'Logo.png')
+
+app.add(startup1_txt, 1, 1)
+app.add(startup2_txt, 2, 1)
+app.add(startup3_txt, 3, 1)
+app.add(startup_btn, 5, 1)
+app.add(lock_img, 6, 5)
 app.width = 500
 
 app.run()
