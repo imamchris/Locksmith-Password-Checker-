@@ -6,17 +6,19 @@ def open_function(event): # destroys the startup page and adds the password chec
     startup_txt.destroy()
     startup_btn.destroy()
     
-    app.height = 250
+    app.height = 400
 
+    # margins=[5, 1, 5, 0], valign = 'middle'
+    
     app.add(intro_lbl, 5, 1)
     app.add(ask_lbl, 6, 1)
-    app.add(checker_inp, 8, 1)
-    app.add(checker_btn, 8, 2)
+    app.add(checker_inp, 8, 1, margins=[5, 0, 5, 15], valign = 'middle')
+    app.add(checker_btn, 8, 2, margins=[5, 0, 5, 0], valign = 'middle')
     app.add(check, 9, 1)
     app.add(rating_lbl, 10, 1)
     app.add(status_lbl, 11, 1)
-    app.add(assist_btn, 12, 2)
-    app.add(copy_btn, 13, 1)
+    app.add(assist_btn, 8, 3, margins=[5, 0, 5, 0], valign = 'middle') # margins[top, right, botton, left]
+    app.add(copy_btn, 8, 4, margins=[5, 0, 5, 0], valign = 'middle')
 
 
 def open_on_top_window(event): # opens the hekp window
@@ -123,9 +125,9 @@ def password_check(event):
     if rating_lbl.text == '0':
         rating_lbl.text = ("Password security is: 0%")
     else:    
-        rating_lbl.text = (f"Password security is: {password_rating / (len(password) + 6) * 100}%") # Calculates how secure the password is base on the rating 
-
-    status_lbl.text = feedback
+        rating_lbl.text = (f"Password security is: {round(password_rating / (len(password) + 6) * 100)}%") # Calculates how secure the password is base on the rating 
+    
+    status_lbl.text = (f"Feedback-\n{'\n'.join(feedback)}")
 
     rating_lbl.update()
 
@@ -139,6 +141,7 @@ def toggle_mask(event): # hides and shows the password
 def copy_password(event):
     print("COPIED!!!")
     app.copy_to_clipboard(checker_inp.text)
+    status_lbl.text = "Password copied"
     
 
 # Main app window
@@ -147,18 +150,27 @@ app.set_grid(50, 50)  # Sets the grid
 
 
 # Main Tab
-intro_lbl = gp.Label(app, 'Hello! Welcome to Locksmith!')
+intro_lbl = gp.Label(app, 'Locksmith!')
 ask_lbl = gp.Label(app, 'Enter your password...')
 rating_lbl = gp.Label(app, '')
 status_lbl = gp.Label(app, '')
+
 checker_inp = gp.Secret(app)
 checker_inp.justify = 'left'
-checker_inp.width = 45
+checker_inp.width = 50
+
 check = gp.Checkbox(app, 'Show Password')
 check.add_event_listener('change', toggle_mask)
+
 checker_btn = gp.Button(app, 'Check', password_check)
+
+
 assist_btn = gp.Button(app, '?', open_on_top_window)
-copy_btn = gp.Button(app, 'Copy', copy_password )
+assist_btn.width = 3
+
+copy_btn = gp.ImageButton(app, 'clipboard.png', copy_password, '')
+copy_btn.width = 5
+
 
 # Help Tab
 help_window = gp.Window(app, 'On top window')
@@ -177,6 +189,6 @@ startup_btn = gp.Button(app, 'Start', open_function)
 
 app.add(startup_txt, 1, 1)
 app.add(startup_btn, 3, 1)
-app.width = 250
+app.width = 500
 
 app.run()
