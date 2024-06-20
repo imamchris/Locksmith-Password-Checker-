@@ -1,7 +1,9 @@
 <!DOCTYPE>
 <html>
 
-<img src="images/Locksmith Thumbnail.png" alt="Locksmith">
+<div style="text-align: center;">
+    <img src="images/Locksmith Thumbnail.png" alt="Locksmith">
+</div>
 
 
 
