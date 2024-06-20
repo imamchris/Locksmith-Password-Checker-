@@ -78,7 +78,7 @@ def password_check(event):
 
     if password in password_list: # checks to see if the password is common
         rating_lbl.text = '0'
-        feedback.append('This password has a high risk of being breached please change your password!')
+        feedback.append('This password has a high risk \nof being breached please change your password!')
     else:
         if len(password) <= 0: # checks if there's nothing in the input
             feedback.append("Please enter a password")    
@@ -109,13 +109,19 @@ def password_check(event):
             else:
                 feedback.append("Try having more special characters")
 
-    if rating_lbl.text == '0':
-        rating_lbl.text = "Password security is: 0%"
-    else:    
-        rating_lbl.text = f"Password security is: {round(password_rating / (len(password) + 6) * 100)}%" # Calculates how secure the password is based on the rating 
-    
+
+    if round(password_rating / (len(password) + 6) * 100) >= 100:
+        rating_lbl.text = (f"Password security is: 100%")
+    elif round(password_rating / (len(password) + 6) * 100) == 0:
+        rating_lbl.text = (f"Password security is: 0%")
+    else:
+        rating_lbl.text = (f"Password security is: {round(password_rating / (len(password) + 6) * 100)}%") # Calculates how secure the password is based on the rating 
+          
+          
     status_lbl.text = f"Feedback-\n{'\n'.join(feedback)}"
     rating_lbl.update()
+
+
 
 def toggle_mask(event): # hides and shows the password
     checker_inp.toggle()
@@ -132,45 +138,93 @@ app.set_grid(50, 50)  # Sets the grid
 # Main Tab
 ask_lbl = gp.StyleLabel(app, 'Enter your password...')
 ask_lbl.font_name = 'Eras Demi ITC'
+ask_lbl.font_weight = 'bold'
+
 rating_lbl = gp.StyleLabel(app, '')
 rating_lbl.font_name = 'Eras Demi ITC'
+
 status_lbl = gp.StyleLabel(app, '')
 status_lbl.font_name = 'Eras Demi ITC'
+
 checker_inp = gp.Secret(app)
 checker_inp.justify = 'left'
 checker_inp.width = 50
+
 check = gp.Checkbox(app, 'Show Password')
 check.add_event_listener('change', toggle_mask)
+
 checker_btn = gp.Button(app, 'Check', password_check)
+
 assist_btn = gp.Button(app, '?', open_on_top_window)
 assist_btn.width = 3
+
 copy_btn = gp.ImageButton(app, 'clipboard.png', copy_password, '')
 copy_btn.width = 5
 
 # Help Tab
-help_window = gp.Window(app, 'On top window')
-help_window.set_grid(50, 50)  # Sets the grid
-help_txt = gp.StyleLabel(help_window, 'This is what you do...')
-help_txt.font_name = 'Eras Demi ITC'
+help_window = gp.Window(app, 'Assistance')
+help_window.set_grid(80, 80)  # Sets the grid
+
+help1_txt = gp.StyleLabel(help_window, 'What is our intention?')
+help1_txt.font_name = 'Eras Demi ITC'
+help1_txt.font_weight = 'bold'
+
+help2_txt = gp.StyleLabel(help_window, 'Our intention to give our users the tools to check whether their passwords are secure or not')
+help2_txt.font_name = 'Eras Demi ITC'
+
+help3_txt = gp.StyleLabel(help_window, 'What do each of the buttons do?')
+help3_txt.font_name = 'Eras Demi ITC'
+help3_txt.font_weight = 'bold'
+
+help4_txt = gp.StyleLabel(help_window, 'Check - Intializes checking of your password in the box')
+help4_txt.font_name = 'Eras Demi ITC'
+
+help5_txt = gp.StyleLabel(help_window, '? - Provides a basic guide to the application and its details')
+help5_txt.font_name = 'Eras Demi ITC'
+
+help6_txt = gp.StyleLabel(help_window, '📋 - Copies whatever is in the text box')
+help6_txt.font_name = 'Eras Demi ITC'
+
+help7_txt = gp.StyleLabel(help_window, '❎ Show Password - Shows and hides your password which is inside the text box')
+help7_txt.font_name = 'Eras Demi ITC'
+
+
 help_btn = gp.Button(help_window, 'Ok!', close_on_top_window)
-help_window.add(help_txt, 1, 1)
-help_window.add(help_btn, 3, 1)
+
+
+help_window.add(help1_txt, 1, 1)
+help_window.add(help2_txt, 2, 1)
+help_window.add(help3_txt, 3, 1)
+help_window.add(help4_txt, 4, 1)
+help_window.add(help5_txt, 5, 1)
+help_window.add(help6_txt, 6, 1)
+help_window.add(help7_txt, 7, 1)
+help_window.add(help_btn, 10, 1)
 
 # Startup Tab
 startup_top_txt = gp.StyleLabel(app, 'Hello, \nWelcome to Locksmith!')
 startup_top_txt.font_name = 'Eras Demi ITC'
+startup_top_txt.font_size = 25
+
 startup_mid_txt = gp.StyleLabel(app, 'We are here to help you create the most secure password as possible')
 startup_mid_txt.font_name = 'Eras Demi ITC'
+
+
 startup_bottom_txt = gp.StyleLabel(app, 'Please Press Start to begin...')
 startup_bottom_txt.font_name = 'Eras Demi ITC'
 startup_btn = gp.Button(app, 'Start', open_function)
+
+
 lock_img = gp.Image(app, 'Logo.png')
 
 app.add(startup_top_txt, 1, 1)
 app.add(startup_mid_txt, 2, 1)
 app.add(startup_bottom_txt, 3, 1)
 app.add(startup_btn, 5, 1)
-app.add(lock_img, 6, 5)
+app.add(lock_img, 5, 5)
+
 app.width = 500
 
+
+app.set_icon('Logo.png')
 app.run()
