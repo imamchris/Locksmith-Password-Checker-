@@ -1,9 +1,8 @@
 <!DOCTYPE>
 <html>
 
-<div style="text-align: center;">
-    <img src="images/Locksmith Thumbnail.png" alt="Locksmith">
-</div>
+<img src="images/Locksmith Thumbnail.png" alt="Locksmith"  style="TOP:235px;LEFT:270px;">
+
 
 <h1>Test123</h1>
 
