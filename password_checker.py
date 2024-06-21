@@ -83,26 +83,36 @@ def password_check(event):
         if len(password) <= 0: # checks if there's nothing in the input
             feedback.append("Please enter a password")    
         else:
+            
+            letters = get_letters(password)
+
             if get_letters(password) > 3:
                 password_rating += 1
+
+                uppers = get_upper(password)
 
                 if get_upper(password) > 2:
                     password_rating += 2
                 else:
                     feedback.append("Try to include more capital letters")
 
+                lowers = get_lower(password)
+
                 if get_lower(password) > 2:
                     password_rating += 2
                 else:
                     feedback.append("Try to include more lowercase letters")
-            
             else:
                 feedback.append("Try having more letters")
+
+            digits = get_digits(password)
 
             if get_digits(password) > 3:
                 password_rating += 3
             else:
                 feedback.append("Try to include numbers") 
+
+            specialchars = get_special_char(password)
 
             if get_special_char(password) > 3:
                 password_rating += 2
