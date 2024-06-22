@@ -211,6 +211,12 @@ def copy_password(event):
     app.copy_to_clipboard(checker_inp.text)
     status_lbl.text = "Password copied"
 
+def on_close():  
+    result =  app.confirm_yesno('Warning', 'Are you sure you want to leave?', 'warning') # warning, question
+    # If the user clicks 'Yes', close the app
+    if result:
+        app.quit()
+
 # Main app window
 app = gp.GooeyPieApp('Locksmith')
 app.set_grid(50, 50)  # Sets the grid
@@ -305,6 +311,7 @@ app.add(lock_img, 5, 5)
 
 app.width = 500
 
-
+app._root.protocol("WM_DELETE_WINDOW", on_close)
 app.set_icon('Logo.png')
+
 app.run()
