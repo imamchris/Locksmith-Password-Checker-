@@ -37,14 +37,14 @@ def get_letters(password): # checks for letters in the password
             letters.append(i) 
     return len(letters)
 
-def get_lower(password):
+def get_lower(password): # checks for lowercase letters in the password
     lowers = []
     for i in password:
         if i.islower():
             lowers.append(i) 
     return len(lowers)
 
-def get_upper(password):
+def get_upper(password): # checks for uppercase letters in the password
     uppers = []
     for i in password:
         if i.isupper():
@@ -67,7 +67,8 @@ def get_special_char(password): # checks for any special characters
             specials.append(i) 
     return len(specials)
 
-def password_check(event):
+
+def password_check(event): # runs the overall checks on the password 
     with open("100000-most-common-passwords.txt", "r") as file: # Opens the .txt file and puts it into a list
         password_list = file.read().splitlines()
     
@@ -77,55 +78,124 @@ def password_check(event):
     password_rating = len(password)
 
     if password in password_list: # checks to see if the password is common
-        rating_lbl.text = '0'
+        password_rating -= 5
         feedback.append('This password has a high risk \nof being breached please change your password!')
     else:
         if len(password) <= 0: # checks if there's nothing in the input
             feedback.append("Please enter a password")    
         else:
             
-            letters = get_letters(password)
+            # further checks the length of password
+            if len(password) >= 15:
+                password_rating += 2
+            elif len(password) >= 10:
+                password_rating += 1
+            elif len(password) >= 5:
+                password_rating -= 2
+            else:
+                password_rating -= 5
 
-            if get_letters(password) > 3:
+
+            letters = get_letters(password) # checks for how many letters are in the password
+
+            if letters > 3: # amount of letters is acceptable
                 password_rating += 1
 
-                uppers = get_upper(password)
+                uppers = get_upper(password) # finds how many captials are in the password
 
-                if get_upper(password) > 2:
+                if uppers > 2: # amount of captials is acceptable
                     password_rating += 2
-                else:
+                
+                elif uppers == 0: # if there are no captials
+                    password_rating -= 2
+                    feedback.append("Try to include capital letters")
+
+                elif uppers < 3: # amount of captials can be improved on
+                    password_rating += 1
                     feedback.append("Try to include more capital letters")
 
-                lowers = get_lower(password)
-
-                if get_lower(password) > 2:
+                lowers = get_lower(password) # finds how many lowercases are in the password
+                
+                if lowers > 2: # amount of lowercases is acceptable
                     password_rating += 2
-                else:
+
+                elif lowers == 0: # if there are no lowercases
+                    password_rating -= 2
+                    feedback.append("Try to include lowercase letters")
+                
+                elif lowers < 3: # amount of lowercases can be improved on
+                    password_rating += 1
                     feedback.append("Try to include more lowercase letters")
-            else:
+            
+            elif letters == 0: # if there are no letters
+                password_rating -= 1
+                feedback.append("Try add letters")
+
+            elif letters <= 3: # amount of letters can be improved on
+                password_rating += 0.5
                 feedback.append("Try having more letters")
 
-            digits = get_digits(password)
+                uppers = get_upper(password) # finds how many captials are in the password
+                
+                if uppers > 2: # amount of captials is acceptable
+                    password_rating += 2
+                
+                elif uppers == 0: # if there are no captials
+                    password_rating -= 2
+                    feedback.append("Try to include capital letters")
 
-            if get_digits(password) > 3:
+                elif uppers < 3: # amount of captials can be improved on
+                    password_rating += 1
+                    feedback.append("Try to include more capital letters")
+                
+                lowers = get_lower(password) # finds how many lowercases are in the password
+                
+                if lowers > 2: # amount of lowercases is acceptable
+                    password_rating += 2
+
+                elif uppers == 0: # if there are no lowercases
+                    password_rating -= 1
+                    feedback.append("Try to include lowercase letters")
+
+                elif lowers < 3: # amount of lowercases can be improved on
+                    password_rating += 1
+                    feedback.append("Try to include more lowercase letters")
+            
+            digits = get_digits(password) # checks for how many digits are in the password
+
+            if digits > 3: # amount of digits is acceptable
                 password_rating += 3
-            else:
+            
+            elif digits == 0: # if there are not digits
+                password_rating -= 2
                 feedback.append("Try to include numbers") 
 
-            specialchars = get_special_char(password)
+            elif digits < 4: # amount of digits can be improved on
+                password_rating += 1.5
+                feedback.append("Try to more include numbers") 
 
-            if get_special_char(password) > 3:
+            specialchars = get_special_char(password) # checks for how many digits ar in the password
+
+            if specialchars > 3: # amount of special characters is acceptable
                 password_rating += 2
-            else:
+            
+            elif letters == 0: # if there are not special characters
+                password_rating -= 1
+                feedback.append("Try having special characters")
+
+            elif specialchars <= 4: # amount of special characters can be improved on            
+                password_rating += 1.5
                 feedback.append("Try having more special characters")
 
 
-    if round(password_rating / (len(password) + 6) * 100) >= 100:
+    securness = min(100, max(0, round((password_rating / 20) * 100))) # NOTE: Use of ChatGPT
+
+    if securness >= 100:
         rating_lbl.text = (f"Password security is: 100%")
-    elif round(password_rating / (len(password) + 6) * 100) == 0:
+    elif securness == 0:
         rating_lbl.text = (f"Password security is: 0%")
     else:
-        rating_lbl.text = (f"Password security is: {round(password_rating / (len(password) + 6) * 100)}%") # Calculates how secure the password is based on the rating 
+        rating_lbl.text = (f"Password security is: {securness} %") # Calculates how secure the password is based on the rating 
           
           
     status_lbl.text = f"Feedback-\n{'\n'.join(feedback)}"
