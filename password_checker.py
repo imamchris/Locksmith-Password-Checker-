@@ -51,6 +51,8 @@ def open_function(event): # destroys the startup page and adds the password chec
 
     app.add(sep_2, 13, 1)
 
+    app.add(details_info_btn, 14, 1)
+
 
 def loading_text(text, step):
     # Adjust the step and reset if it exceeds 3
@@ -75,6 +77,13 @@ def open_help_window(event): # opens the help window
 def close_help_window(event): # closes the help window
     help_window.hide()
 
+# Detail Window
+
+def open_details_window(event): # opens the help window
+    details_window.show_on_top()
+
+def close_details_window(event): # closes the help window
+    details_window.hide()
 
 # Password Checking Functions
 
@@ -117,6 +126,7 @@ def get_special_char(password): # checks for any special characters
 
 
 def password_check(event): # runs the overall checks on the password 
+      
     with open("100000-most-common-passwords.txt", "r") as file: # Opens the .txt file and puts it into a list
         password_list = file.read().splitlines()
     
@@ -251,6 +261,8 @@ def password_check(event): # runs the overall checks on the password
     rating_lbl.colour = colour
     rating_lbl.update()
 
+    # return letters, lowers, uppers, digits, specialchars
+
 # Other Features
 
 def toggle_mask(event): # hides and shows the password
@@ -308,6 +320,8 @@ status_lbl.font_name = 'Eras Demi ITC'
 
 sep_2 = gp.Separator(app, 'horizontal')
 
+details_info_btn = gp.Button(app, 'Details', open_details_window)
+
 
 
 # Help Tab
@@ -352,6 +366,46 @@ help_window.add(help_btn, 10, 1)
 
 
 
+# Details
+details_window = gp.Window(app, 'Password Details')
+details_window.set_grid(80, 80)  # Sets the grid
+
+detail_intro = gp.StyleLabel(details_window, 'Password Details')
+detail_intro.font_name = 'Eras Demi ITC'
+detail_intro.font_weight = 'bold'
+
+length_of_password = gp.StyleLabel(details_window, '')
+length_of_password.font_name = 'Eras Demi ITC'
+
+letters_of_password = gp.StyleLabel(details_window, '')
+length_of_password.font_name = 'Eras Demi ITC'
+
+lowers_of_password = gp.StyleLabel(details_window, '')
+lowers_of_password.font_name = 'Eras Demi ITC'
+
+uppers_of_password = gp.StyleLabel(details_window, '')
+uppers_of_password.font_name = 'Eras Demi ITC'
+
+digits_of_password = gp.StyleLabel(details_window, '')
+digits_of_password.font_name = 'Eras Demi ITC'
+
+specials_of_password = gp.StyleLabel(details_window, '')
+specials_of_password.font_name = 'Eras Demi ITC'
+
+detail_btn = gp.Button(details_window, 'Ok!', close_details_window)
+
+
+details_window.add(detail_intro, 1, 1)
+details_window.add(length_of_password, 2, 1)
+details_window.add(letters_of_password, 3, 1)
+details_window.add(lowers_of_password, 4, 1)
+details_window.add(uppers_of_password, 5, 1)
+details_window.add(specials_of_password, 6, 1)
+
+details_window.add(detail_btn, 10, 1)
+
+
+
 # Startup Tab
 startup_top_txt = gp.StyleLabel(app, 'Hello, \nWelcome to Locksmith!')
 startup_top_txt.font_name = 'Eras Demi ITC'
@@ -379,7 +433,6 @@ app.add(startup_mid_txt, 2, 1)
 app.add(startup_bottom_txt, 3, 1)
 app.add(startup_btn, 5, 1)
 app.add(lock_img, 5, 5)
-
 
 
 
