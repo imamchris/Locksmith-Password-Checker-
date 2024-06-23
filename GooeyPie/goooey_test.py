@@ -1,17 +1,32 @@
 import gooeypie as gp
+import time
 
-def on_close():
-    # Show a confirmation dialog using tkinter
-    result =  app.confirm_yesno('Warning', 'Are you sure you want to leave?', 'warning') #warning, question
-    # If the user clicks 'Yes', close the app
-    if result:
-        app.quit()
 
-# Create the app window
-app = gp.GooeyPieApp('Confirmation on Close')
-app.set_size(400, 300)
+def ask(event):
+    loading_pb.value = 0
+    for i in range(20):
+        loading_pb.value += 5
+        app.refresh()
+        time.sleep(0.02)
+    
+    ask_btn.destroy()
+    loading_pb.destroy()
+    
 
-# Use the built-in tkinter method to intercept the close event
-app._root.protocol("WM_DELETE_WINDOW", on_close)
+
+app = gp.GooeyPieApp('Magic 8 Ball')
+
+
+ask_btn = gp.Button(app, 'Ask', ask)
+
+loading_pb = gp.Progressbar(app)
+
+
+app.set_grid(10, 10)
+app.add(ask_btn, 1, 2, valign='middle')
+app.add(loading_pb, 2, 1, column_span=10, fill=True)
+
+app.width = 500
+
 
 app.run()

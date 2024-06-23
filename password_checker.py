@@ -1,5 +1,5 @@
 import gooeypie as gp
-import re
+import time
 
 
 def open_function(event): # destroys the startup page and adds the password checker
@@ -9,7 +9,19 @@ def open_function(event): # destroys the startup page and adds the password chec
     startup_bottom_txt.destroy()
     startup_btn.destroy()
     lock_img.destroy()
+
+    app.refresh()
+    app.add(loading_pb, 50, 2, column_span=30, fill=True)
+
+    loading_pb.value = 0
+    for i in range(20):
+        loading_pb.value += 5
+        app.refresh()
+        time.sleep(0.05)
     
+    loading_pb.destroy()
+    app.refresh()
+
     # Add new widgets
     app.add(ask_lbl, 6, 1)
     app.add(checker_inp, 8, 1, margins=[5, 0, 5, 15], valign = 'middle')
@@ -21,10 +33,10 @@ def open_function(event): # destroys the startup page and adds the password chec
     app.add(copy_btn, 8, 4, margins=[5, 0, 5, 0], valign = 'middle')
 
 
-def open_on_top_window(event): # opens the help window
+def open_help_window(event): # opens the help window
     help_window.show_on_top()
 
-def close_on_top_window(event): # closes the help window
+def close_help_window(event): # closes the help window
     help_window.hide()
 
 
@@ -212,10 +224,12 @@ def copy_password(event):
     status_lbl.text = "Password copied"
 
 def on_close():  
-    result =  app.confirm_yesno('Warning', 'Are you sure you want to leave?', 'warning') # warning, question
+    result =  app.confirm_yesno('Exit', 'Are you sure your finished using the app?', 'warning') # warning, question  
     # If the user clicks 'Yes', close the app
     if result:
         app.quit()
+
+
 
 # Main app window
 app = gp.GooeyPieApp('Locksmith')
@@ -241,7 +255,7 @@ check.add_event_listener('change', toggle_mask)
 
 checker_btn = gp.Button(app, 'Check', password_check)
 
-assist_btn = gp.Button(app, '?', open_on_top_window)
+assist_btn = gp.Button(app, '?', open_help_window)
 assist_btn.width = 3
 
 copy_btn = gp.ImageButton(app, 'clipboard.png', copy_password, '')
@@ -275,7 +289,7 @@ help7_txt = gp.StyleLabel(help_window, '❎ Show Password - Shows and hides your
 help7_txt.font_name = 'Eras Demi ITC'
 
 
-help_btn = gp.Button(help_window, 'Ok!', close_on_top_window)
+help_btn = gp.Button(help_window, 'Ok!', close_help_window)
 
 
 help_window.add(help1_txt, 1, 1)
@@ -302,6 +316,8 @@ startup_btn = gp.Button(app, 'Start', open_function)
 
 
 lock_img = gp.Image(app, 'Logo.png')
+
+loading_pb = gp.Progressbar(app)
 
 app.add(startup_top_txt, 1, 1)
 app.add(startup_mid_txt, 2, 1)
