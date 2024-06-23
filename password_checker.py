@@ -1,12 +1,13 @@
 import gooeypie as gp
 import time
 
+# Opening the App
 
 def open_function(event): # destroys the startup page and adds the password checker
     
     app.refresh()
-    app.add(loading_txt, 49, 1)
-    app.add(loading_pb, 50, 1, column_span=30, fill=True) # adds the loading bar
+    app.add(loading_txt, 29, 1)
+    app.add(loading_pb, 30, 1, column_span=30, fill=True) # adds the loading bar
 
     loading_pb.value = 0
     step = 0
@@ -31,6 +32,8 @@ def open_function(event): # destroys the startup page and adds the password chec
     startup_btn.destroy()
     lock_img.destroy()
     app.refresh()
+
+    app.height = 300
 
     # Add new widgets
     app.add(ask_lbl, 6, 1)
@@ -57,6 +60,7 @@ def loading_text(text, step):
 
     return result, step
 
+# Help Window
 
 def open_help_window(event): # opens the help window
     help_window.show_on_top()
@@ -224,21 +228,23 @@ def password_check(event): # runs the overall checks on the password
                 password_rating += 1.5
                 feedback.append("Try having more special characters")
 
-
     securness = min(100, max(0, round((password_rating / 20) * 100))) # NOTE: Use of ChatGPT
 
     if securness >= 100:
         rating_lbl.text = (f"Password security is: 100%")
+        colour = 'DarkOliveGreen'
     elif securness == 0:
         rating_lbl.text = (f"Password security is: 0%")
+        colour = 'Crimson'
     else:
         rating_lbl.text = (f"Password security is: {securness} %") # Calculates how secure the password is based on the rating 
-          
+        colour = 'DarkOrange'  
           
     status_lbl.text = f"Feedback-\n{'\n'.join(feedback)}"
+    rating_lbl.colour = colour
     rating_lbl.update()
 
-
+# Other Features
 
 def toggle_mask(event): # hides and shows the password
     checker_inp.toggle()
@@ -354,6 +360,9 @@ app.add(startup_bottom_txt, 3, 1)
 app.add(startup_btn, 5, 1)
 app.add(lock_img, 5, 5)
 
+app.set_resizable(True)
+
+app.height = 550
 app.width = 600
 
 app._root.protocol("WM_DELETE_WINDOW", on_close)
