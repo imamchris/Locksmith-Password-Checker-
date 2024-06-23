@@ -3,23 +3,33 @@ import time
 
 
 def open_function(event): # destroys the startup page and adds the password checker
+    
+    app.refresh()
+    app.add(loading_txt, 49, 1)
+    app.add(loading_pb, 50, 1, column_span=30, fill=True) # adds the loading bar
+
+    loading_pb.value = 0
+    step = 0
+    for i in range(20):
+        text, step = loading_text("Loading...", step)
+        loading_pb.value += 5
+        
+        loading_txt.text = text
+        loading_txt.update()
+        
+        app.refresh()
+
+        time.sleep(0.1)
+    
     # Destroy startup widgets
+
+    loading_pb.destroy() # removes loading bar once finished
+    loading_txt.destroy() # removes the loading text
     startup_top_txt.destroy()
     startup_mid_txt.destroy()
     startup_bottom_txt.destroy()
     startup_btn.destroy()
     lock_img.destroy()
-
-    app.refresh()
-    app.add(loading_pb, 50, 2, column_span=30, fill=True)
-
-    loading_pb.value = 0
-    for i in range(20):
-        loading_pb.value += 5
-        app.refresh()
-        time.sleep(0.05)
-    
-    loading_pb.destroy()
     app.refresh()
 
     # Add new widgets
@@ -31,6 +41,21 @@ def open_function(event): # destroys the startup page and adds the password chec
     app.add(status_lbl, 11, 1)
     app.add(assist_btn, 8, 3, margins=[5, 0, 5, 0], valign = 'middle')
     app.add(copy_btn, 8, 4, margins=[5, 0, 5, 0], valign = 'middle')
+
+def loading_text(text, step):
+    # Adjust the step and reset if it exceeds 3
+    if step >= 3:
+        step = 0
+    else:
+        step += 1
+
+    # Remove all periods from the text
+    text = text.replace('.', '')
+    
+    # Add the periods to the end of the text based on the step
+    result = text + ('.' * step)
+
+    return result, step
 
 
 def open_help_window(event): # opens the help window
@@ -319,13 +344,17 @@ lock_img = gp.Image(app, 'Logo.png')
 
 loading_pb = gp.Progressbar(app)
 
+loading_txt = gp.StyleLabel(app, "Loading...")
+loading_txt.font_name = 'Eras Demi ITC'
+loading_txt.font_weight = 'bold'
+
 app.add(startup_top_txt, 1, 1)
 app.add(startup_mid_txt, 2, 1)
 app.add(startup_bottom_txt, 3, 1)
 app.add(startup_btn, 5, 1)
 app.add(lock_img, 5, 5)
 
-app.width = 500
+app.width = 600
 
 app._root.protocol("WM_DELETE_WINDOW", on_close)
 app.set_icon('Logo.png')

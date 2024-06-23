@@ -1,32 +1,24 @@
-import gooeypie as gp
 import time
 
+def loading_text(text, step):
+    # Adjust the step and reset if it exceeds 3
+    if step >= 3:
+        step = 0
+    else:
+        step += 1
 
-def ask(event):
-    loading_pb.value = 0
-    for i in range(20):
-        loading_pb.value += 5
-        app.refresh()
-        time.sleep(0.02)
+    # Remove all periods from the text
+    text = text.replace('.', '')
     
-    ask_btn.destroy()
-    loading_pb.destroy()
-    
+    # Add the periods to the end of the text based on the step
+    result = text + ('.' * step)
 
+    return result, step
 
-app = gp.GooeyPieApp('Magic 8 Ball')
-
-
-ask_btn = gp.Button(app, 'Ask', ask)
-
-loading_pb = gp.Progressbar(app)
-
-
-app.set_grid(10, 10)
-app.add(ask_btn, 1, 2, valign='middle')
-app.add(loading_pb, 2, 1, column_span=10, fill=True)
-
-app.width = 500
-
-
-app.run()
+# Test the function
+step = 0
+for i in range(10):
+    text, step = loading_text("loading...", step)
+    loading_txt.text = text
+    loading_txt.update()
+    time.sleep(1)
