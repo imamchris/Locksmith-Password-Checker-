@@ -33,7 +33,7 @@ def open_function(event): # destroys the startup page and adds the password chec
     lock_img.destroy()
     app.refresh()
 
-    app.height = 300
+    app.height = 100
 
     # Add new widgets
     app.add(ask_lbl, 6, 1)
@@ -125,6 +125,18 @@ def get_special_char(password): # checks for any special characters
     return len(specials)
 
 
+def get_rating(count, thresholds): # NOTE: Use of ChatGPT, Gets rating of individual statistics
+    if count >= thresholds['Very Good']:
+        return 'Very Good'
+    elif count >= thresholds['Good']:
+        return 'Good'
+    elif count >= thresholds['Ok']:
+        return 'Ok'
+    elif count >= thresholds['Poor']:
+        return 'Poor'
+    else:
+        return 'Very Poor'
+
 def password_check(event): # runs the overall checks on the password 
       
     with open("100000-most-common-passwords.txt", "r") as file: # Opens the .txt file and puts it into a list
@@ -134,13 +146,6 @@ def password_check(event): # runs the overall checks on the password
     feedback = [] # Password feedback
     password = checker_inp.text
     password_rating = len(password)
-
-    length_of_password.text = f'Length: {len(password)}'
-    letters_of_password.text = f'Letters: {get_letters(password)}'
-    lowers_of_password.text = f'Lowercase Letters: {get_lower(password)}'
-    uppers_of_password.text = f'Uppercase Letters: {get_upper(password)}'
-    digits_of_password.text = f'Digits: {get_digits(password)}'
-    specials_of_password.text = f'Special Characters: {get_special_char(password)}'
 
 
     if password in password_list: # checks to see if the password is common
@@ -164,8 +169,6 @@ def password_check(event): # runs the overall checks on the password
             
             else:
                 password_rating -= 5
-
-            length_of_password.update()
 
             letters = get_letters(password) # checks for how many letters are in the password
 
@@ -275,7 +278,14 @@ def password_check(event): # runs the overall checks on the password
     rating_lbl.colour = colour
     rating_lbl.update()
 
-    # return letters, lowers, uppers, digits, specialchars
+    # NOTE: Use of ChatGPT, Gets the individual rating for the stat details
+    length_of_password.text = f'Length: {len(password)} ({get_rating(len(password), {"Very Good": 15, "Good": 10, "Ok": 5, "Poor": 1})})'
+    letters_of_password.text = f'Letters: {letters} ({get_rating(letters, {"Very Good": 10, "Good": 7, "Ok": 4, "Poor": 1})})'
+    lowers_of_password.text = f'Lowercase Letters: {lowers} ({get_rating(lowers, {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
+    uppers_of_password.text = f'Uppercase Letters: {uppers} ({get_rating(uppers, {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
+    digits_of_password.text = f'Digits: {digits} ({get_rating(digits, {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
+    specials_of_password.text = f'Special Characters: {specialchars} ({get_rating(specialchars, {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
+
 
 # Other Features
 
@@ -381,10 +391,10 @@ help_window.add(help_btn, 10, 1)
 
 
 # Details
-details_window = gp.Window(app, 'Password Details -')
+details_window = gp.Window(app, 'Password Details')
 details_window.set_grid(80, 80)  # Sets the grid
 
-detail_intro = gp.StyleLabel(details_window, 'Password Details')
+detail_intro = gp.StyleLabel(details_window, 'Password Details -')
 detail_intro.font_name = 'Eras Demi ITC'
 detail_intro.font_weight = 'bold'
 
