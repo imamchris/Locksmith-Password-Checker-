@@ -20,7 +20,7 @@ def open_function(event): # destroys the startup page and adds the password chec
         
         app.refresh()
 
-        time.sleep(0.1)
+        time.sleep(0.02)
     
     # Destroy startup widgets
 
@@ -37,13 +37,20 @@ def open_function(event): # destroys the startup page and adds the password chec
 
     # Add new widgets
     app.add(ask_lbl, 6, 1)
+    
     app.add(checker_inp, 8, 1, margins=[5, 0, 5, 15], valign = 'middle')
     app.add(checker_btn, 8, 2, margins=[5, 0, 5, 0], valign = 'middle')
     app.add(check, 9, 1)
-    app.add(rating_lbl, 10, 1)
-    app.add(status_lbl, 11, 1)
     app.add(assist_btn, 8, 3, margins=[5, 0, 5, 0], valign = 'middle')
     app.add(copy_btn, 8, 4, margins=[5, 0, 5, 0], valign = 'middle')
+    
+    app.add(sep_1, 10, 1)
+    
+    app.add(rating_lbl, 11, 1)
+    app.add(status_lbl, 12, 1)
+
+    app.add(sep_2, 13, 1)
+
 
 def loading_text(text, step):
     # Adjust the step and reset if it exceeds 3
@@ -266,16 +273,11 @@ def on_close():
 app = gp.GooeyPieApp('Locksmith')
 app.set_grid(50, 50)  # Sets the grid
 
+
 # Main Tab
 ask_lbl = gp.StyleLabel(app, 'Enter your password...')
 ask_lbl.font_name = 'Eras Demi ITC'
 ask_lbl.font_weight = 'bold'
-
-rating_lbl = gp.StyleLabel(app, '')
-rating_lbl.font_name = 'Eras Demi ITC'
-
-status_lbl = gp.StyleLabel(app, '')
-status_lbl.font_name = 'Eras Demi ITC'
 
 checker_inp = gp.Secret(app)
 checker_inp.justify = 'left'
@@ -291,6 +293,22 @@ assist_btn.width = 3
 
 copy_btn = gp.ImageButton(app, 'clipboard.png', copy_password, '')
 copy_btn.width = 5
+
+checker_inp = gp.Secret(app)
+checker_inp.justify = 'left'
+checker_inp.width = 50
+
+sep_1 = gp.Separator(app, 'horizontal')
+
+rating_lbl = gp.StyleLabel(app, 'Password security is: ...')
+rating_lbl.font_name = 'Eras Demi ITC'
+
+status_lbl = gp.StyleLabel(app, '...')
+status_lbl.font_name = 'Eras Demi ITC'
+
+sep_2 = gp.Separator(app, 'horizontal')
+
+
 
 # Help Tab
 help_window = gp.Window(app, 'Assistance')
@@ -332,6 +350,8 @@ help_window.add(help6_txt, 6, 1)
 help_window.add(help7_txt, 7, 1)
 help_window.add(help_btn, 10, 1)
 
+
+
 # Startup Tab
 startup_top_txt = gp.StyleLabel(app, 'Hello, \nWelcome to Locksmith!')
 startup_top_txt.font_name = 'Eras Demi ITC'
@@ -359,6 +379,9 @@ app.add(startup_mid_txt, 2, 1)
 app.add(startup_bottom_txt, 3, 1)
 app.add(startup_btn, 5, 1)
 app.add(lock_img, 5, 5)
+
+
+
 
 app.set_resizable(True)
 
