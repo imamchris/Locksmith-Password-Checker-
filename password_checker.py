@@ -135,24 +135,37 @@ def password_check(event): # runs the overall checks on the password
     password = checker_inp.text
     password_rating = len(password)
 
+    length_of_password.text = f'Length: {len(password)}'
+    letters_of_password.text = f'Letters: {get_letters(password)}'
+    lowers_of_password.text = f'Lowercase Letters: {get_lower(password)}'
+    uppers_of_password.text = f'Uppercase Letters: {get_upper(password)}'
+    digits_of_password.text = f'Digits: {get_digits(password)}'
+    specials_of_password.text = f'Special Characters: {get_special_char(password)}'
+
+
     if password in password_list: # checks to see if the password is common
         password_rating -= 5
         feedback.append('This password has a high risk \nof being breached please change your password!')
     else:
         if len(password) <= 0: # checks if there's nothing in the input
-            feedback.append("Please enter a password")    
+            feedback.append("Please enter a password")
+            length_of_password.txt = f'{len(password)} (Very Poor)'
         else:
             
             # further checks the length of password
             if len(password) >= 15:
                 password_rating += 2
+                
             elif len(password) >= 10:
                 password_rating += 1
+                
             elif len(password) >= 5:
                 password_rating -= 2
+            
             else:
                 password_rating -= 5
 
+            length_of_password.update()
 
             letters = get_letters(password) # checks for how many letters are in the password
 
@@ -160,6 +173,7 @@ def password_check(event): # runs the overall checks on the password
                 password_rating += 1
 
                 uppers = get_upper(password) # finds how many captials are in the password
+
 
                 if uppers > 2: # amount of captials is acceptable
                     password_rating += 2
@@ -367,29 +381,29 @@ help_window.add(help_btn, 10, 1)
 
 
 # Details
-details_window = gp.Window(app, 'Password Details')
+details_window = gp.Window(app, 'Password Details -')
 details_window.set_grid(80, 80)  # Sets the grid
 
 detail_intro = gp.StyleLabel(details_window, 'Password Details')
 detail_intro.font_name = 'Eras Demi ITC'
 detail_intro.font_weight = 'bold'
 
-length_of_password = gp.StyleLabel(details_window, '')
+length_of_password = gp.StyleLabel(details_window, 'Password Length: ...')
 length_of_password.font_name = 'Eras Demi ITC'
 
-letters_of_password = gp.StyleLabel(details_window, '')
-length_of_password.font_name = 'Eras Demi ITC'
+letters_of_password = gp.StyleLabel(details_window, 'Letters in Password: ...')
+letters_of_password.font_name = 'Eras Demi ITC'
 
-lowers_of_password = gp.StyleLabel(details_window, '')
+lowers_of_password = gp.StyleLabel(details_window, 'Lowercases in Password: ...')
 lowers_of_password.font_name = 'Eras Demi ITC'
 
-uppers_of_password = gp.StyleLabel(details_window, '')
+uppers_of_password = gp.StyleLabel(details_window, 'Capitals in Passworrd: ...')
 uppers_of_password.font_name = 'Eras Demi ITC'
 
-digits_of_password = gp.StyleLabel(details_window, '')
+digits_of_password = gp.StyleLabel(details_window, 'Numbers in Password: ...')
 digits_of_password.font_name = 'Eras Demi ITC'
 
-specials_of_password = gp.StyleLabel(details_window, '')
+specials_of_password = gp.StyleLabel(details_window, 'Special Characters in Password: ...')
 specials_of_password.font_name = 'Eras Demi ITC'
 
 detail_btn = gp.Button(details_window, 'Ok!', close_details_window)
@@ -404,7 +418,7 @@ details_window.add(specials_of_password, 6, 1)
 
 details_window.add(detail_btn, 10, 1)
 
-
+details_window.width = 400
 
 # Startup Tab
 startup_top_txt = gp.StyleLabel(app, 'Hello, \nWelcome to Locksmith!')
