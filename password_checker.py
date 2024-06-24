@@ -280,11 +280,18 @@ def password_check(event): # runs the overall checks on the password
 
     # NOTE: Use of ChatGPT, Gets the individual rating for the stat details
     length_of_password.text = f'Length: {len(password)} ({get_rating(len(password), {"Very Good": 15, "Good": 10, "Ok": 5, "Poor": 1})})'
-    letters_of_password.text = f'Letters: {letters} ({get_rating(letters, {"Very Good": 10, "Good": 7, "Ok": 4, "Poor": 1})})'
-    lowers_of_password.text = f'Lowercase Letters: {lowers} ({get_rating(lowers, {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
-    uppers_of_password.text = f'Uppercase Letters: {uppers} ({get_rating(uppers, {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
-    digits_of_password.text = f'Digits: {digits} ({get_rating(digits, {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
-    specials_of_password.text = f'Special Characters: {specialchars} ({get_rating(specialchars, {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
+    letters_of_password.text = f'Letters: {get_letters(password)} ({get_rating(get_letters(password), {"Very Good": 10, "Good": 7, "Ok": 4, "Poor": 1})})'
+    lowers_of_password.text = f'Lowercase Letters: {get_lower(password)} ({get_rating(get_lower(password), {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
+    uppers_of_password.text = f'Uppercase Letters: {get_upper(password)} ({get_rating(get_upper(password), {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
+    digits_of_password.text = f'Digits: {get_digits(password)} ({get_rating(get_digits(password), {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
+    specials_of_password.text = f'Special Characters: {get_special_char(password)} ({get_rating(get_special_char(password), {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
+
+    length_of_password.update()
+    length_of_password.update()
+    lowers_of_password.update()
+    uppers_of_password.update()
+    digits_of_password.update()
+    specials_of_password.update()
 
 
 # Other Features
