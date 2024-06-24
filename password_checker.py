@@ -5,13 +5,13 @@ import time
 
 def open_function(event): # destroys the startup page and adds the password checker
     
-    app.refresh()
+    app.refresh() # begins to show the loading bar
     app.add(loading_txt, 29, 1)
     app.add(loading_pb, 30, 1, column_span=30, fill=True) # adds the loading bar
 
-    loading_pb.value = 0
+    loading_pb.value = 0 
     step = 0
-    for i in range(20):
+    for i in range(20): # Loading Process
         text, step = loading_text("Loading...", step)
         loading_pb.value += 5
         
@@ -54,18 +54,14 @@ def open_function(event): # destroys the startup page and adds the password chec
     app.add(details_info_btn, 14, 1)
 
 
-def loading_text(text, step):
-    # Adjust the step and reset if it exceeds 3
-    if step >= 3:
+def loading_text(text, step): # NOTE: Use of ChatGPT, Changes the amount of dots in the loading text
+    if step >= 3: # Adjust the step and reset if it's greater than 3
         step = 0
     else:
         step += 1
 
-    # Remove all periods from the text
-    text = text.replace('.', '')
-    
-    # Add the periods to the end of the text based on the step
-    result = text + ('.' * step)
+    text = text.replace('.', '') # Remove all dots from the text
+    result = text + ('.' * step) # Adds new ones to the end of the text based on the step
 
     return result, step
 
@@ -265,8 +261,9 @@ def password_check(event): # runs the overall checks on the password
                 password_rating += 1.5
                 feedback.append("Try having more special characters")
 
-    securness = min(100, max(0, round((password_rating / 20) * 100))) # NOTE: Use of ChatGPT
+    securness = min(100, max(0, round((password_rating / 20) * 100))) # NOTE: Use of ChatGPT, calculates the securness of the password
 
+    # changes the colour of the text based on the score above
     if securness >= 100:
         rating_lbl.text = (f"Password security is: 100%")
         colour = 'DarkOliveGreen'
@@ -277,11 +274,11 @@ def password_check(event): # runs the overall checks on the password
         rating_lbl.text = (f"Password security is: {securness} %") # Calculates how secure the password is based on the rating 
         colour = 'DarkOrange'  
           
-    status_lbl.text = f"Feedback-\n{'\n'.join(feedback)}"
-    rating_lbl.colour = colour
+    status_lbl.text = f"Feedback-\n{'\n'.join(feedback)}" # adds in the feedback
+    rating_lbl.colour = colour # changes the colour of the rating
     rating_lbl.update()
 
-    # NOTE: Use of ChatGPT, Gets the individual rating for the stat details
+    # NOTE: Use of ChatGPT, Gets the individual rating for the stat details and updates them
     length_of_password.text = f'Length: {len(password)} ({get_rating(len(password), {"Very Good": 15, "Good": 10, "Ok": 5, "Poor": 1})})'
     letters_of_password.text = f'Letters: {get_letters(password)} ({get_rating(get_letters(password), {"Very Good": 10, "Good": 7, "Ok": 4, "Poor": 1})})'
     lowers_of_password.text = f'Lowercase Letters: {get_lower(password)} ({get_rating(get_lower(password), {"Very Good": 5, "Good": 3, "Ok": 2, "Poor": 1})})'
