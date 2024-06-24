@@ -375,6 +375,9 @@ help6_txt.font_name = 'Eras Demi ITC'
 help7_txt = gp.StyleLabel(help_window, '❎ Show Password - Shows and hides your password which is inside the text box')
 help7_txt.font_name = 'Eras Demi ITC'
 
+help8_txt = gp.StyleLabel(help_window, 'Details - Shows stats of the checked password such as its length, amount of letters, etc...')
+help8_txt.font_name = 'Eras Demi ITC'
+
 
 help_btn = gp.Button(help_window, 'Ok!', close_help_window)
 
@@ -386,6 +389,7 @@ help_window.add(help4_txt, 4, 1)
 help_window.add(help5_txt, 5, 1)
 help_window.add(help6_txt, 6, 1)
 help_window.add(help7_txt, 7, 1)
+help_window.add(help8_txt, 8, 1)
 help_window.add(help_btn, 10, 1)
 
 
