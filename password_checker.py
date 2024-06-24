@@ -163,12 +163,15 @@ def password_check(event): # runs the overall checks on the password
                 
             elif len(password) >= 10:
                 password_rating += 1
+                feedback.append("The length is good but can be increased")
                 
             elif len(password) >= 5:
                 password_rating -= 2
+                feedback.append("Try to make the password longer")
             
             else:
                 password_rating -= 5
+                feedback.append("Please make the password longer")
 
             letters = get_letters(password) # checks for how many letters are in the password
 
@@ -183,7 +186,7 @@ def password_check(event): # runs the overall checks on the password
                 
                 elif uppers == 0: # if there are no captials
                     password_rating -= 2
-                    feedback.append("Try to include capital letters")
+                    feedback.append("Please include capital letters")
 
                 elif uppers < 3: # amount of captials can be improved on
                     password_rating += 1
@@ -196,7 +199,7 @@ def password_check(event): # runs the overall checks on the password
 
                 elif lowers == 0: # if there are no lowercases
                     password_rating -= 2
-                    feedback.append("Try to include lowercase letters")
+                    feedback.append("Please include lowercase letters")
                 
                 elif lowers < 3: # amount of lowercases can be improved on
                     password_rating += 1
@@ -204,7 +207,7 @@ def password_check(event): # runs the overall checks on the password
             
             elif letters == 0: # if there are no letters
                 password_rating -= 1
-                feedback.append("Try add letters")
+                feedback.append("Please add letters to the password")
 
             elif letters <= 3: # amount of letters can be improved on
                 password_rating += 0.5
@@ -217,7 +220,7 @@ def password_check(event): # runs the overall checks on the password
                 
                 elif uppers == 0: # if there are no captials
                     password_rating -= 2
-                    feedback.append("Try to include capital letters")
+                    feedback.append("Please include capital letters")
 
                 elif uppers < 3: # amount of captials can be improved on
                     password_rating += 1
@@ -228,9 +231,9 @@ def password_check(event): # runs the overall checks on the password
                 if lowers > 2: # amount of lowercases is acceptable
                     password_rating += 2
 
-                elif uppers == 0: # if there are no lowercases
+                elif lowers == 0: # if there are no lowercases
                     password_rating -= 1
-                    feedback.append("Try to include lowercase letters")
+                    feedback.append("Please include lowercase letters")
 
                 elif lowers < 3: # amount of lowercases can be improved on
                     password_rating += 1
@@ -243,11 +246,11 @@ def password_check(event): # runs the overall checks on the password
             
             elif digits == 0: # if there are not digits
                 password_rating -= 2
-                feedback.append("Try to include numbers") 
+                feedback.append("Please include numbers") 
 
             elif digits < 4: # amount of digits can be improved on
                 password_rating += 1.5
-                feedback.append("Try to more include numbers") 
+                feedback.append("Try to include more numbers") 
 
             specialchars = get_special_char(password) # checks for how many digits ar in the password
 
@@ -256,7 +259,7 @@ def password_check(event): # runs the overall checks on the password
             
             elif letters == 0: # if there are not special characters
                 password_rating -= 1
-                feedback.append("Try having special characters")
+                feedback.append("Please include special characters")
 
             elif specialchars <= 4: # amount of special characters can be improved on            
                 password_rating += 1.5
