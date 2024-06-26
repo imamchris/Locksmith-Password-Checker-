@@ -409,6 +409,11 @@ detail_intro = gp.StyleLabel(details_window, 'Password Details -')
 detail_intro.font_name = 'Eras Demi ITC'
 detail_intro.font_weight = 'bold'
 
+detail_intro2 = gp.StyleLabel(details_window, 'NOTE: Please make sure you pressed check for your given password \n      or else stats of previous passwords may be shown!')
+detail_intro2.font_name = 'Eras Demi ITC'
+detail_intro2.font_weight = 'bold'
+detail_intro2.font_size = 10
+
 length_of_password = gp.StyleLabel(details_window, 'Password Length: ...')
 length_of_password.font_name = 'Eras Demi ITC'
 
@@ -431,11 +436,12 @@ detail_btn = gp.Button(details_window, 'Ok!', close_details_window)
 
 
 details_window.add(detail_intro, 1, 1)
-details_window.add(length_of_password, 2, 1)
-details_window.add(letters_of_password, 3, 1)
-details_window.add(lowers_of_password, 4, 1)
-details_window.add(uppers_of_password, 5, 1)
-details_window.add(specials_of_password, 6, 1)
+details_window.add(detail_intro2, 2, 1)
+details_window.add(length_of_password, 3, 1)
+details_window.add(letters_of_password, 4, 1)
+details_window.add(lowers_of_password, 5, 1)
+details_window.add(uppers_of_password, 6, 1)
+details_window.add(specials_of_password, 7, 1)
 
 details_window.add(detail_btn, 10, 1)
 
