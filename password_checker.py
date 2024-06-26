@@ -362,6 +362,7 @@ help_window.set_grid(80, 80)  # Sets the grid
 help1_txt = gp.StyleLabel(help_window, 'What is our intention?')
 help1_txt.font_name = 'Eras Demi ITC'
 help1_txt.font_weight = 'bold'
+help1_txt.font_size = 15
 
 help2_txt = gp.StyleLabel(help_window, 'Our intention to give our users the tools to check whether their passwords are secure or not')
 help2_txt.font_name = 'Eras Demi ITC'
@@ -369,6 +370,7 @@ help2_txt.font_name = 'Eras Demi ITC'
 help3_txt = gp.StyleLabel(help_window, 'What do each of the buttons do?')
 help3_txt.font_name = 'Eras Demi ITC'
 help3_txt.font_weight = 'bold'
+help3_txt.font_size = 15
 
 help4_txt = gp.StyleLabel(help_window, 'Check - Intializes checking of your password in the box')
 help4_txt.font_name = 'Eras Demi ITC'
@@ -408,8 +410,9 @@ details_window.set_grid(80, 80)  # Sets the grid
 detail_intro = gp.StyleLabel(details_window, 'Password Details -')
 detail_intro.font_name = 'Eras Demi ITC'
 detail_intro.font_weight = 'bold'
+detail_intro.font_size = 15
 
-detail_intro2 = gp.StyleLabel(details_window, 'NOTE: Please make sure you pressed check for your given password \n      or else stats of previous passwords may be shown!')
+detail_intro2 = gp.StyleLabel(details_window, 'NOTE: Please make sure you pressed check for your given password \n            or else stats of previous passwords may be shown!')
 detail_intro2.font_name = 'Eras Demi ITC'
 detail_intro2.font_weight = 'bold'
 detail_intro2.font_size = 10
